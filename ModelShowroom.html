@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>The model's showroom</title>
+
+    <!--CSS Sheet: jQuery UI -->
+    <link href="./Resources/Support/jquery-ui-1.10.2.custom.min.css" type="text/css" rel="stylesheet">
+    <!--My CSS Sheet -->
+    <link href="./Resources/Media/CSS/modelShowroom.css" type="text/css" rel="stylesheet">
+    <!--Javascript Libraries: Utilities, UI -->
+    <script type="text/javascript" src="./Resources/Support/webgl-debug.js"></script>
+    <script type="text/javascript" src="./Resources/Support/webgl-utils.js"></script>
+    <script type="text/javascript" src="./Resources/Support/glMatrix-1.3.2.min.js"></script>
+    <script type="text/javascript" src="./Resources/Support/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="./Resources/Support/jquery-ui-1.10.2.custom.min.js"></script>
+
+    <!--My Libraries -->
+    <script type="text/javascript" src="./Resources/Library/Globals.js"></script>
+    <script type="text/javascript" src="./Resources/Library/Utilities.js"></script>
+    <script type="text/javascript" src="./Resources/Library/ShaderProgram.js"></script>
+    <script type="text/javascript" src="./Resources/Library/Camera.js"></script>
+    <script type="text/javascript" src="./Resources/Library/ModelTransformation.js"></script>
+    <script type="text/javascript" src="./Resources/Library/ObserveScene.js"></script>
+    <script type="text/javascript" src="./Resources/Library/Light.js"></script>
+    <script type="text/javascript" src="./Resources/Library/Texture.js"></script>
+    <script type="text/javascript" src="./Resources/Library/Primitives.js"></script>
+    <script type="text/javascript" src="./Resources/Library/Arcball.js"></script>
+    <script type="text/javascript" src="./Resources/Library/FrameBuffer.js"></script>
+    <script type="text/javascript" src="./Resources/Library/LoadModel.js"></script>
+    <!--My Application Files -->
+    <script type="text/javascript" src="./Resources/Library/controlGUI.js"></script>
+    <script type="text/javascript" src="./Resources/Library/StripTorus.js"></script>
+    <script type="text/javascript" src="./Resources/Library/NormalMap.js"></script>
+    <script type="text/javascript" src="./Resources/Library/PostProcessing.js"></script>
+    <script type="text/javascript" src="./Resources/Library/mainForShowroom.js"></script>
+
+</head>
+
+<body onload="runModelShowroom();">
+<div id="modelContainer">
+    <canvas id="webGL_model" width="650" height="650">
+        <img id="pTexture1" src="./Resources/Media/Textures/Models/cloud.jpg">
+        <img id="pTexture2" src="./Resources/Media/Textures/Models/sun.jpg">
+        <img id="pTexture3" src="./Resources/Media/Textures/Models/grand.jpg">
+        <img id="pTexture4" src="./Resources/Media/Textures/Models/webgl.gif">
+
+        <img id="mTexture1" src="./Resources/Media/Textures/Models/fieldstone.jpg">
+        <img id="nTexture1" src="./Resources/Media/Textures/Models/fieldstone-normal.jpg">
+
+        <img id="noiseTexture" src="./Resources/Media/Textures/Models/noise.png">
+    </canvas>
+</div>
+
+<div id="controlContainer">
+    <h2 id="showroomTitle">Model Showroom</h2>
+
+    <div id="controlAccordion">
+
+        <h2> <a href="#">Color Controller</a> </h2>
+        <div>
+            <table>
+                <tr>
+                    <td>Red: </td> <td> <div id="red"></div> </td>
+                </tr>
+                <tr>
+                    <td>Green: </td> <td> <div id="green"></div> </td>
+                </tr>
+                <tr>
+                    <td>Blue: </td> <td> <div id="blue"></div> </td>
+                </tr>
+            </table>
+
+            <div>
+                <div id="objectSelect">
+                    <input type="radio" id="cCube" name="radio" checked="checked" /><label for="cCube">Cube</label>
+                    <input type="radio" id="cPyramid" name="radio" /><label for="cPyramid">Pyramid</label>
+                    <input type="radio" id="cCylinder" name="radio" /><label for="cCylinder">Cylinder</label>
+                    <input type="radio" id="cSphere" name="radio" /><label for="cSphere">Sphere</label>
+                    <input type="radio" id="cTorus" name="radio" /><label for="cTorus">Torus</label>
+                </div>
+            </div>
+        </div>
+
+
+
+        <h2> <a href="#">Texture Controller</a> </h2>
+        <div>
+            <table>
+                <tr>
+                    <td> <div id="td1"><img id="t1" src="./Resources/Media/Textures/Models/cloud.jpg"></div> </td>
+                    <td> <div id="td2"><img id="t2" src="./Resources/Media/Textures/Models/sun.jpg"></div> </td>
+                    <td> <div id="td3"><img id="t3" src="./Resources/Media/Textures/Models/grand.jpg"></div> </td>
+                </tr>
+            </table>
+
+            <div>
+                <div id="textureModelSelect">
+                    <input type="radio" id="tCube" name="radio" checked="checked" ><label for="tCube">Cube</label>
+                    <input type="radio" id="tPyramid" name="radio" ><label for="tPyramid">Pyramid</label>
+                    <input type="radio" id="tCylinder" name="radio" /><label for="tCylinder">Cylinder</label>
+                    <input type="radio" id="tSphere" name="radio" /><label for="tSphere">Sphere</label>
+                    <input type="radio" id="tTorus" name="radio" /><label for="tTorus">Torus</label>
+                </div>
+            </div>
+        </div>
+
+
+
+        <h2> <a href="#">Strip Controller</a> </h2>
+        <div>
+            <table>
+                <tr>
+                    <td>BRed: </td> <td> <div id="BRed"></div> </td>
+                    <td>SRed: </td> <td> <div id="SRed"></div> </td>
+                </tr>
+                <tr>
+                    <td>BGreen: </td> <td> <div id="BGreen"></div> </td>
+                    <td>SGreen: </td> <td> <div id="SGreen"></div> </td>
+                </tr>
+                <tr>
+                    <td>BBlue: </td> <td> <div id="BBlue"></div> </td>
+                    <td>SBlue: </td> <td> <div id="SBlue"></div> </td>
+                </tr>
+            </table>
+
+            <h1></h1>
+
+            <table>
+                <tr>
+                    <td>StripNumber: </td> <td><div id="SNumber"></div> </td>
+                </tr>
+            </table>
+        </div>
+
+
+
+        <h2> <a href="#">NormalMap Controller</a> </h2>
+        <div>
+            <div>
+                <div id="postProcessingSelect">
+                    <input type="radio" id="normal" name="radio" checked="checked" /><label for="normal">Normal</label>
+                    <input type="radio" id="invert" name="radio" ><label for="invert">Invert</label>
+                    <input type="radio" id="gray" name="radio" ><label for="gray">Gray</label>
+                    <input type="radio" id="wavy" name="radio" /><label for="wavy">Wavy</label>
+                    <input type="radio" id="cinema" name="radio" /><label for="cinema">Cinema</label>
+                </div>
+            </div>
+        </div>
+
+
+
+        <h2> <a href="#">Model Controller</a> </h2>
+        <div>
+            <table>
+                <tr>
+                    <td>Red: </td> <td> <div id="cRed"></div> </td>
+                </tr>
+                <tr>
+                    <td>Green: </td> <td> <div id="cGreen"></div> </td>
+                </tr>
+                <tr>
+                    <td>Blue: </td> <td> <div id="cBlue"></div> </td>
+                </tr>
+            </table>
+
+            <div>
+                <div id="modelSelect">
+                    <input type="radio" id="teapot" name="radio"/><label for="teapot">Utah Teapot</label>
+                    <input type="radio" id="bunny" name="radio" /><label for="bunny">Standford Bunny</label>
+                    <input type="radio" id="cat" name="radio" /><label for="cat">Cat</label>
+                    <input type="radio" id="deer" name="radio" /><label for="deer">Deer</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="dialog-modal" title="Instructions">
+    <h3>Color Controller</h3>
+    <p>By dragging the slides( r, g, b values ), you can change the model's color accordingly.
+    By choosing the radio buttons, you can change different models as you like.</p>
+
+    <h3>Texture Controller</h3>
+    <p>By dragging the pictures onto the canvas, you can change the texture of those models.
+    By choosing the radio buttons, you can change different models as you like</p>
+
+    <h3>StripTorus Controller</h3>
+    <p>By dragging the slides, you can change strip color or background color of the model.
+    By dragging the "Strip Number" slides, strip numbers will change accordingly.</p>
+
+    <h3>NormalMap Controller</h3>
+    <p>By choosing the radio buttons, you can see different post-processing effect.</p>
+
+    <h3>Model Controller</h3>
+    <p>By dragging the slides( r, g, b values ), you can change the model's color accordingly.
+        By choosing the radio buttons, you can change different models as you like.</p>
+
+    <p>Now enjoy yourself ~^_^~</p>
+</div>
+
+
+<div id="toHome">
+    <a href="index.html">
+        <img id="back" src="./Resources/Media/Icon/Network.png">
+    </a>
+</div>
+
+</body>
+
+</html>

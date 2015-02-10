@@ -1,0 +1,90 @@
+@font-face
+{
+    font-family: "HandWirtten";
+    src: url("Blokletters-Viltstift.ttf");
+}
+
+body
+{
+     background-image: url("Instructions.png");
+     color: darkgreen;
+     font-family: "HandWirtten", Arial, sans-serif;
+     padding: 5px 0 25px;
+}
+
+#container
+{
+    background: #eef;
+    margin: 5px auto;
+    width: 850px;
+    height: 600px;
+    box-shadow: 0px 0px 30px #000;
+}
+
+#title
+{
+    font-family: "HandWirtten", Georgia, serif;
+    font-size: 25px;
+}
+
+
+article {
+    float: left;
+    padding: 0 5px 0 24px;
+    width: 540px;
+    font-size: 14px;
+}
+
+
+#Link1, #Link2
+{
+    float: left;
+    margin-right: 10px;
+    width: 100px;
+    height: 100px;
+}
+
+
+#caution
+{
+    float: left;
+    width: 210px;
+    height: 445px;
+    border: 2px solid #bdc3d9;
+    margin-left: 18px;
+    margin-top: 55px;
+    padding: 0 15px;
+}
+
+#sign
+{
+    float: left;
+    width: 45px;
+    height: 45px;
+}
+
+#cautionTitle
+{
+    float: left;
+    font-size: 20px;
+    margin-left: 15px;
+}
+
+#cautionContent
+{
+    font-size: 12.5px;
+}
+
+footer
+{
+    text-align: right;
+    position: relative;
+    top: 68px;
+    background: #dde5ff;
+    clear: both;
+}
+
+#footContent
+{
+    margin-right: 35px;
+}

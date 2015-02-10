@@ -1,0 +1,317 @@
+<shaderDocument Version="1.0">
+
+<script type="x-shader/x-fragment">
+<id>primitiveShader_fragment</id>
+<code>
+#ifdef GL_ES
+precision highp float;
+#endif
+
+varying vec3 eyePosition;
+varying vec3 eyeNormal;
+varying vec2 vTextureCoord;
+varying vec4 vColor;
+
+uniform vec3 uLightPosition;
+uniform vec3 uAmbientLightColor;
+uniform vec3 uDiffuseLightColor;
+uniform vec3 uSpecularLightColor;
+uniform sampler2D uSampler;
+
+uniform bool uUseTexture;
+uniform bool uLightIsPoint;
+
+const float shininess = 32.0;
+
+void main()
+{
+    //Calculate 'n' of the Phong Reflection Model
+    vec3 vectorOfNormal = normalize( eyeNormal );
+
+    //Calculate 'l' of the Phong Reflection Model
+    vec3 vectorToLight;
+    if( uLightIsPoint )
+    {
+        vectorToLight = normalize( uLightPosition - eyePosition );
+    }
+    else
+    {
+        vectorToLight = normalize( uLightPosition );
+    }
+
+
+    //Calculate 'r' of the Phong Reflection Model
+    vec3 vectorToReflection = normalize( reflect( -vectorToLight, vectorOfNormal ) );
+
+    //Calculate 'v' of the Phong Reflection Model
+    vec3 vectorToViewer = -normalize( eyePosition );
+
+    float diffuseLightWeighting = max( dot( vectorToLight, vectorOfNormal ), 0.0 );
+    float speculardot = max( dot( vectorToReflection, vectorToViewer ), 0.0 );
+    float specularLightWeighting = pow( speculardot, shininess );
+
+    vec3 vLightWeighting = uAmbientLightColor +
+    diffuseLightWeighting * uDiffuseLightColor +
+    specularLightWeighting * uSpecularLightColor;
+
+    vec4 textureColor = texture2D( uSampler, vTextureCoord );
+
+    if( uUseTexture )
+    {
+        gl_FragColor = vec4( vLightWeighting * textureColor.rgb, textureColor.a );
+    }
+    else
+    {
+        gl_FragColor = vec4( vLightWeighting * vColor.rgb, vColor.a );
+    }
+}
+</code>
+</script>
+	
+<script type="x-shader/x-fragment">
+<id>skyboxShader_fragment</id>
+<code>
+#ifdef GL_ES
+precision highp float;
+#endif
+
+varying vec3 vReflectDirection;
+
+uniform samplerCube uCubeMapTexture;
+
+void main()
+{
+    vec4 CubeMapColor = textureCube( uCubeMapTexture, vReflectDirection );
+
+    gl_FragColor = CubeMapColor;
+}
+</code>
+</script>
+
+
+<script type="x-shader/x-fragment">
+<id>envSphereShader_fragment</id>
+<code>
+#ifdef GL_ES
+precision highp float;
+#endif
+
+varying vec3 vReflectDir;
+varying vec3 vRefractDir;
+
+uniform samplerCube uCubeMapTexture;
+
+const float reflectionFactor = 0.9;
+
+void main()
+{
+    vec4 reflectColor = textureCube( uCubeMapTexture, vReflectDir );
+    vec4 refractColor = textureCube( uCubeMapTexture, vRefractDir );
+    gl_FragColor = mix( refractColor, reflectColor, reflectionFactor );
+}
+</code>
+</script>
+
+<script type="x-shader/x-fragment">
+<id>stripTorusShader_fragment</id>
+<code>
+#ifdef GL_ES
+precision highp float;
+#endif
+
+varying vec3 vPositionInWorld;
+varying vec3 vNormalInWorld;
+varying vec2 vTextureCoord;
+
+uniform vec3 uLightPosition;
+uniform vec3 uAmbientLightColor;
+uniform vec3 uDiffuseLightColor;
+uniform vec3 uSpecularLightColor;
+uniform bool uLightIsPoint;
+
+uniform vec3 uStripeColor;
+uniform vec3 uBackColor;
+uniform float uStripeWidth;
+uniform float uStripeNumber;
+uniform float uFuzz;
+
+const float shininess = 22.0;
+
+void main()
+{
+    float scaledT = fract( vTextureCoord.s * uStripeNumber );
+    float frac1 = clamp( scaledT / uFuzz, 0.0, 1.0 );
+    float frac2 = clamp( ( scaledT - uStripeWidth ) / uFuzz, 0.0, 1.0 );
+
+    frac1 = frac1 * ( 1.0 - frac2 );
+    frac2 = frac1 * frac1 * ( 3.0 - ( 2.0 * frac1 ) );
+    vec3 stripeFinalColor = mix( uBackColor, uStripeColor, frac1 );
+
+    //'n' of Phong Reflection Model
+    vec3 vectorOfNormal = normalize( vNormalInWorld );
+
+    //'l' of Phong Reflection Model
+    vec3 vectorToLight;
+    if( uLightIsPoint )
+    {
+        vectorToLight = normalize( uLightPosition - vPositionInWorld );
+    }
+    else
+    {
+        vectorToLight = normalize( uLightPosition );
+    }
+
+    //'r' of Phong Reflection Model
+    vec3 vectorToReflection = normalize( reflect( -vectorToLight, vectorOfNormal ) );
+
+    //'v' of Phong Reflection Model
+    vec3 vectorToViewer = -normalize( vPositionInWorld );
+
+    float diffuseLightWeighting = max( dot(vectorOfNormal, vectorToLight ), 0.0 );
+    float specularLightBase = max( dot( vectorToReflection, vectorToViewer ), 0.0 );
+    float specularLightWeighting = pow( specularLightBase, shininess );
+
+    vec3 phongLightWeight = uAmbientLightColor * stripeFinalColor
+        + diffuseLightWeighting * stripeFinalColor * uDiffuseLightColor
+        + specularLightWeighting * stripeFinalColor *  uSpecularLightColor;
+
+
+    gl_FragColor = vec4( phongLightWeight, 1.0 );
+}
+</code>
+</script>
+
+<script type="x-shader/x-fragment">
+<id>normalMapShader_fragment</id>
+<code>
+#ifdef GL_ES
+precision highp float;
+#endif
+
+varying vec2 vTextureCoord;
+varying vec3 vLightDirection;
+varying vec3 vEyeDirection;
+
+uniform vec3 uAmbientLightColor;
+uniform vec3 uSpecularLightColor;
+
+uniform sampler2D uSamplerColor;
+uniform sampler2D uSamplerTexture;
+
+const float shininess = 22.0;
+
+void main()
+{
+    vec4 colorTexture = texture2D( uSamplerColor, vTextureCoord );
+    vec3 diffuseLightColor = colorTexture.xyz;
+
+    vec3 vectorOfNormal = normalize( 2.0 * ( texture2D( uSamplerTexture, vTextureCoord ).rgb - 0.5) );
+
+    vec3 vectorOfReflect = normalize( reflect( -vLightDirection, vectorOfNormal ) );
+    float diffuseLightWeighting = max( dot(vectorOfNormal, vLightDirection), 0.0 );
+    float specularDot = max( dot(vectorOfReflect, vEyeDirection), 0.0 );
+    float specularLightWeighting = pow( specularDot, shininess );
+
+    vec3 lightColor = uAmbientLightColor
+        + diffuseLightWeighting * diffuseLightColor
+        + specularLightWeighting * uSpecularLightColor;
+
+    gl_FragColor = vec4( lightColor.rgb, 1.0 );
+}
+</code>
+</script>
+
+<script type="x-shader/x-fragment">
+<id>postProcessingShader_invertFragment</id>
+<code>
+#ifdef GL_ES
+precision highp float;
+#endif
+
+uniform sampler2D uSampler;
+
+varying vec2 vTextureCoord;
+
+void main(void)
+{
+    vec4 frameColor = texture2D( uSampler, vTextureCoord );
+
+    gl_FragColor = vec4( 1.0 - frameColor.r, 1.0 - frameColor.g,
+        1.0 - frameColor.b, frameColor.a );
+}
+</code>
+</script>
+
+<script type="x-shader/x-fragment">
+<id>postProcessingShader_grayFragment</id>
+<code>
+#ifdef GL_ES
+precision highp float;
+#endif
+
+uniform sampler2D uSampler;
+
+varying vec2 vTextureCoord;
+
+void main(void)
+{
+    vec4 frameColor = texture2D( uSampler, vTextureCoord );
+    float fragColor = frameColor.r * 0.8 + frameColor.g * 0.1 + frameColor.b * 0.5;
+
+    gl_FragColor = vec4( fragColor, fragColor, fragColor, frameColor.a );
+}
+</code>
+</script>
+
+<script type="x-shader/x-fragment">
+<id>postProcessingShader_wavyFragment</id>
+<code>
+#ifdef GL_ES
+precision highp float;
+#endif
+
+uniform sampler2D uSampler;
+uniform float uTime;
+
+varying vec2 vTextureCoord;
+
+const float speed = 18.0;
+const float magnitude = 0.025;
+
+void main(void)
+{
+    vec2 wavyCoord;
+    wavyCoord.s = vTextureCoord.s + ( sin( uTime+vTextureCoord.t*speed ) * magnitude );
+    wavyCoord.t = vTextureCoord.t + ( cos( uTime+vTextureCoord.s*speed ) * magnitude );
+    vec4 frameColor = texture2D( uSampler, wavyCoord );
+    gl_FragColor = frameColor;
+}
+</code>
+</script>
+
+<script type="x-shader/x-fragment">
+<id>postProcessingShader_cinemaFragment</id>
+<code>
+#ifdef GL_ES
+precision highp float;
+#endif
+
+uniform sampler2D uSampler;
+uniform sampler2D uNoiseSampler;
+uniform vec2 uInverseTextureSize;
+uniform float uTime;
+
+varying vec2 vTextureCoord;
+
+const float grainIntensity = 0.1;
+const float scrollSpeed = 4000.0;
+
+void main(void)
+{
+    vec4 frameColor = texture2D( uSampler, vTextureCoord );
+    vec4 grain = texture2D( uNoiseSampler, vTextureCoord * 2.0 + uTime * scrollSpeed * uInverseTextureSize);
+    gl_FragColor = frameColor - (grain * grainIntensity );
+}
+</code>
+</script>
+</shaderDocument>

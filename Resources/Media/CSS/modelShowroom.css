@@ -1,0 +1,138 @@
+body
+{
+    background-image: url("Showroom.png");
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+#modelContainer
+{
+    float: left;
+}
+
+#webGL_model
+{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    border: darkorange solid 7px;
+    background-color: orange;
+}
+
+#controlContainer
+{
+    float: right;
+    width: 550px;
+}
+
+#showroomTitle
+{
+    color: wheat;
+    text-align: center;
+    font-size: 42px;
+    text-shadow: 2px 3px 5px #999;
+}
+
+.ui-widget-content
+{
+    height: 225px;
+}
+
+#red, #green, #blue
+{
+    width: 375px;
+    height: 12px;
+    margin: 15px;
+}
+
+#red .ui-slider-handle { border-color: red; }
+#green .ui-slider-handle { border-color: green; }
+#blue .ui-slider-handle { border-color: blue; }
+
+.ui-button-text { font-size: 0.95em }
+
+#objectSelect
+{
+    margin-top: 25px;
+}
+
+#t1, #t2, #t3
+{
+    width: 100px;
+    height: 100px;
+    padding-left: 2em;
+    cursor: pointer;
+}
+
+#texInstruction
+{
+    text-align: center;
+    position: relative;
+    left: 2.5px;
+    top: 12px;
+}
+
+#textureModelSelect
+{
+    margin-top: 45px;
+}
+
+
+#BRed, #SRed, #BGreen, #SGreen, #BBlue, #SBlue
+{
+    width: 145px;
+    height: 12px;
+    margin: 15px;
+}
+
+
+#BRed .ui-slider-handle { border-color: red; }
+#BGreen .ui-slider-handle { border-color: green; }
+#BBlue .ui-slider-handle { border-color: blue; }
+#SRed .ui-slider-handle { border-color: red; }
+#SGreen .ui-slider-handle { border-color: green; }
+#SBlue .ui-slider-handle { border-color: blue; }
+
+#SNumber
+{
+    width: 325px;
+    height: 12px;
+    margin: 15px;
+}
+
+#postProcessingSelect
+{
+    margin-top: 75px;
+    margin-left: 25px;
+}
+
+#cRed, #cGreen, #cBlue
+{
+    width: 375px;
+    height: 12px;
+    margin: 15px;
+}
+
+#cRed .ui-slider-handle { border-color: red; }
+#cGreen .ui-slider-handle { border-color: green; }
+#cBlue .ui-slider-handle { border-color: blue; }
+
+
+#modelSelect
+{
+    margin-top: 25px;
+    margin-left: 16px;
+}
+
+
+#toHome
+{
+    position: absolute;
+    left: 1210px;
+    top: 635px;
+}
+
+#back
+{
+    width: 55px;
+    height: 55px;
+}

@@ -1,0 +1,61 @@
+@font-face
+{
+    font-family: "HandWirtten";
+    src: url("Blokletters-Viltstift.ttf");
+}
+
+
+body
+{
+    background-image: url("./PaintingShop.png");
+}
+
+#viewContainer
+{
+    float: left;
+}
+
+#webGL
+{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    border: darkslateblue solid 7px;
+    background-color: deepskyblue;
+}
+
+#instructor
+{
+    float: right;
+    width: 550px;
+}
+
+#paintingShopTitle
+{
+    text-align: center;
+    color: navajowhite;
+    font-family: "HandWirtten", Arial, sans-serif;
+    font-size: 40px;
+    text-shadow: 2px 3px 5px #999;
+}
+
+#demoInstruction1, #demoInstruction2
+{
+    color: greenyellow;
+    font-family: HandWirtten, Arial, serif;
+    font-size: 20px;
+    text-shadow: 4px 5px 5px #999;
+}
+
+#toHome
+{
+    position: absolute;
+    left: 1210px;
+    top: 635px;
+}
+
+#back
+{
+    width: 55px;
+    height: 55px;
+}
