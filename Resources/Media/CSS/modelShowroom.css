@@ -6,6 +6,8 @@ body
 
 #modelContainer
 {
+    width: 38em;
+    height: 36em;
     float: left;
 }
 
@@ -21,7 +23,8 @@ body
 #controlContainer
 {
     float: right;
-    width: 550px;
+    width: 36em;
+    height: 34em;
 }
 
 #showroomTitle
@@ -126,9 +129,7 @@ body
 
 #toHome
 {
-    position: absolute;
-    left: 1210px;
-    top: 635px;
+    float: right;
 }
 
 #back

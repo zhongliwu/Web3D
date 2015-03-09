@@ -13,6 +13,8 @@ body
 #viewContainer
 {
     float: left;
+    width: 35em;
+    height: 35em;
 }
 
 #webGL
@@ -27,7 +29,8 @@ body
 #instructor
 {
     float: right;
-    width: 550px;
+    width: 35em;
+    height: 35em;
 }
 
 #paintingShopTitle
@@ -49,9 +52,7 @@ body
 
 #toHome
 {
-    position: absolute;
-    left: 1210px;
-    top: 635px;
+    float: right;
 }
 
 #back

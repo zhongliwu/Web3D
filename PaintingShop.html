@@ -2,64 +2,66 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>The Painting Shop</title>
 
     <!--My CSS Sheet -->
-    <link href="./Resources/Media/CSS/paintingShop.css" type="text/css" rel="stylesheet">
-    <!--Javascript Libraries: Utilities, UI -->
-    <script type="text/javascript" src="./Resources/Support/webgl-debug.js"></script>
-    <script type="text/javascript" src="./Resources/Support/webgl-utils.js"></script>
-    <script type="text/javascript" src="./Resources/Support/glMatrix-1.3.2.min.js"></script>
-    <script type="text/javascript" src="./Resources/Support/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="./Resources/Support/jquery-ui-1.10.2.custom.min.js"></script>
-
-    <!--My Libraries -->
-    <script type="text/javascript" src="./Resources/Library/Globals.js"></script>
-    <script type="text/javascript" src="./Resources/Library/Utilities.js"></script>
-    <script type="text/javascript" src="./Resources/Library/ShaderProgram.js"></script>
-    <script type="text/javascript" src="./Resources/Library/Camera.js"></script>
-    <script type="text/javascript" src="./Resources/Library/ModelTransformation.js"></script>
-    <script type="text/javascript" src="./Resources/Library/ObserveScene.js"></script>
-    <script type="text/javascript" src="./Resources/Library/Light.js"></script>
-    <script type="text/javascript" src="./Resources/Library/Primitives.js"></script>
-    <!--My Application Files -->
-    <script type="text/javascript" src="./Resources/Library/SkyBox.js"></script>
-    <script type="text/javascript" src="./Resources/Library/mainForShop.js"></script>
+    <link href="./Resources/Media/CSS/paintingShop.css" rel="stylesheet" />
+    <link hre="./Resources/Support/bootstrap.min.css" rel="stylesheet" />
 </head>
 
-<body onload="runPaintingShop();">
-<div id="viewContainer">
-    <canvas id="webGL" width="650" height="650">
-        <img id="positive_x" src="./Resources/Media/Textures/Skybox/SkyBoxRight.JPG">
-        <img id="negative_x" src="./Resources/Media/Textures/Skybox/SkyBoxLeft.JPG">
-        <img id="positive_y" src="./Resources/Media/Textures/Skybox/SkyBoxTop.JPG">
-        <img id="negative_y" src="./Resources/Media/Textures/Skybox/SkyBoxBottom.JPG">
-        <img id="positive_z" src="./Resources/Media/Textures/Skybox/SkyBoxBack.JPG">
-        <img id="negative_z" src="./Resources/Media/Textures/Skybox/SkyBoxFront.JPG">
-    </canvas>
+<body onload="runPaintingShop();" class="container">
+<div class="row">
+    <div id="viewContainer" class="col-sm-6 col-md-6 col-lg-6">
+        <canvas id="webGL" width="650" height="650">
+            <img id="positive_x" src="./Resources/Media/Textures/Skybox/SkyBoxRight.JPG">
+            <img id="negative_x" src="./Resources/Media/Textures/Skybox/SkyBoxLeft.JPG">
+            <img id="positive_y" src="./Resources/Media/Textures/Skybox/SkyBoxTop.JPG">
+            <img id="negative_y" src="./Resources/Media/Textures/Skybox/SkyBoxBottom.JPG">
+            <img id="positive_z" src="./Resources/Media/Textures/Skybox/SkyBoxBack.JPG">
+            <img id="negative_z" src="./Resources/Media/Textures/Skybox/SkyBoxFront.JPG">
+        </canvas>
+    </div>
+
+    <article id="instructor" class="col-sm-6 col-md-6 col-lg-6">
+        <h2 id="paintingShopTitle">The Painting Shop</h2>
+
+        <p id="demoInstruction1">
+            This demo's idea comes from Google's demo,
+            Dynamic Cubemap.
+        </p>
+
+        <p id="demoInstruction2">
+        </p>
+
+        <div id="toHome">
+            <a href="index.html">
+                <img id="back" src="./Resources/Media/Icon/Network.png">
+            </a>
+        </div>
+    </article>
 </div>
+<!--Javascript Libraries: Utilities, UI -->
+<script type="text/javascript" src="./Resources/Support/webgl-debug.js"></script>
+<script type="text/javascript" src="./Resources/Support/webgl-utils.js"></script>
+<script type="text/javascript" src="./Resources/Support/glMatrix-1.3.2.min.js"></script>
+<script type="text/javascript" src="./Resources/Support/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="./Resources/Support/bootstrap.min.js"></script>
 
-<article id="instructor">
-    <h2 id="paintingShopTitle">The Painting Shop</h2>
-
-    <p id="demoInstruction1">
-        This is a demo created by using WebGL API. The idea is originated from Google's demo,
-        Dynamic Cubemap.
-    </p>
-
-    <p id="demoInstruction2">
-        We use skybox shader to create the environment, while environment mapping is implemented
-        onto the sphere located in the center. Those small spheres which animate in the scene are
-        created by the primitive shader, where phong reflection model and phong shading model are used.
-        We create sphere model in the file primitive.js.
-    </p>
-</article>
-
-<div id="toHome">
-    <a href="index.html">
-        <img id="back" src="./Resources/Media/Icon/Network.png">
-    </a>
-</div>
+<!--My Libraries -->
+<script type="text/javascript" src="./Resources/Library/Globals.js"></script>
+<script type="text/javascript" src="./Resources/Library/Utilities.js"></script>
+<script type="text/javascript" src="./Resources/Library/ShaderProgram.js"></script>
+<script type="text/javascript" src="./Resources/Library/Camera.js"></script>
+<script type="text/javascript" src="./Resources/Library/ModelTransformation.js"></script>
+<script type="text/javascript" src="./Resources/Library/ObserveScene.js"></script>
+<script type="text/javascript" src="./Resources/Library/Light.js"></script>
+<script type="text/javascript" src="./Resources/Library/Primitives.js"></script>
+<!--My Application Files -->
+<script type="text/javascript" src="./Resources/Library/SkyBox.js"></script>
+<script type="text/javascript" src="./Resources/Library/mainForShop.js"></script>
+<noscript>
 </body>
 
 </html>
