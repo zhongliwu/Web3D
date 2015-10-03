@@ -8,6 +8,6 @@
 
 * Clone the repository and open the index.html files. Follow the cation and links on the page.
 
-### Contact ###
+### Sample ###
 
-* ZhongliWu0921@hotmail.com
+http://olivierwebgl.sinaapp.com/
